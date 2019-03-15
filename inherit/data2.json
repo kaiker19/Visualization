@@ -1,0 +1,751 @@
+{
+	"type": "force",
+	"categories": [
+        {
+            "name": "张树华",
+            "keyword": {},
+            "base": "张树华"
+        },
+        {
+            "name": "赖茂生",
+            "keyword": {},
+            "base": "赖茂生"
+        },
+        {
+            "name": "李广建",
+            "keyword": {},
+            "base": "李广建"
+        },
+        {
+            "name": "刘素清",
+            "keyword": {},
+            "base": "刘素清"
+        },
+        {
+            "name": "刘晓娟",
+            "keyword": {},
+            "base": "刘晓娟"
+        },
+        {
+            "name": "化柏林",
+            "keyword": {},
+            "base": "化柏林"
+        },
+        {
+            "name": "祝振媛",
+            "keyword": {},
+            "base": "祝振媛"
+        },
+        {
+            "name": "符绍宏",
+            "keyword": {},
+            "base": "符绍宏"
+        },
+        {
+            "name": "赵荣",
+            "keyword": {},
+            "base": "赵荣"
+        },
+        {
+            "name": "黄崑",
+            "keyword": {},
+            "base": "黄崑"
+        },
+        {
+            "name": "张路路",
+            "keyword": {},
+            "base": "张路路"
+        },
+        {
+            "name": "屈鹏",
+            "keyword": {},
+            "base": "屈鹏"
+        },
+        {
+            "name": "浦燕妮",
+            "keyword": {},
+            "base": "浦燕妮"
+        }
+    ],
+    "nodes": [
+        {
+            "name": "张树华",
+            "value": 99,
+            "category": 0
+        },
+        {
+            "name": "《图书馆学基础》",
+            "value": 28,
+            "category": 0
+        },
+        {
+            "name": "图书馆",
+            "value": 20,
+            "category": 0
+        },
+        {
+            "name": "中国图书馆事业",
+            "value": 20,
+            "category": 0
+        },
+        {
+            "name": "全国图书协调",
+            "value": 20,
+            "category": 0
+        },
+        {
+            "name": "读者工作",
+            "value": 20,
+            "category": 0
+        },
+        {
+            "name": "图书馆服务",
+            "value": 20,
+            "category": 0
+        },
+        {
+            "name": "李广建",
+            "value": 64,
+            "category": 2
+        },
+        {
+            "name": "大数据时代知识融合的体系架构、实现模式及实证研究",
+            "value": 28,
+            "category": 2
+        },
+        {
+            "name": "大数据",
+            "value": 20,
+            "category": 2 
+        },
+        {
+            "name": "情报分析",
+            "value": 20,
+            "category": 2
+        },
+        {
+            "name": "数字图书馆",
+            "value": 20,
+            "category": 2
+        },
+        {
+            "name": "情报研究",
+            "value": 20,
+            "category": 2
+        },
+        {
+            "name": "刘素清",
+            "value": 55,
+            "category": 3
+        },
+        {
+            "name": "高校图书馆学科化知识服务实证研究与发展对策",
+            "value": 28,
+            "category": 3
+        },
+        {
+            "name": "学科服务",
+            "value": 20,
+            "category": 3
+        },
+        {
+            "name": "文献计量",
+            "value": 20,
+            "category": 3
+        },
+        {
+            "name": "文献传递",
+            "value": 20,
+            "category": 3
+        },
+        {
+            "name": "学科馆员",
+            "value": 20,
+            "category": 3
+        },
+        {
+            "name": "馆际互借",
+            "value": 20,
+            "category": 3
+        },
+        {
+            "name": "刘晓娟",
+            "value": 45.6,
+            "category": 4
+        },
+        {
+            "name": "社交媒体视域下科研评价的理论与方法研究",
+            "value": 28,
+            "category": 4
+        },
+        {
+            "name": "替代计量学",
+            "value": 20,
+            "category": 4
+        },
+        {
+            "name": "影响力评价",
+            "value": 20,
+            "category": 4
+        },
+        {
+            "name": "关联数据",
+            "value": 20,
+            "category": 4
+        },
+        {
+            "name": "可视化",
+            "value": 20,
+            "category": 4
+        },
+        {
+            "name": "化柏林",
+            "value": 49.2,
+            "category": 5
+        },
+        {
+            "name": "大数据环境下的多源信息融合机理与方法研究",
+            "value": 28,
+            "category": 5
+        },
+        {
+            "name": "电子治理",
+            "value": 20,
+            "category": 5
+        },
+        {
+            "name": "知识转换",
+            "value": 20,
+            "category": 5
+        },
+        {
+            "name": "智能情报分析",
+            "value": 20,
+            "category": 5
+        },
+        {
+            "name": "祝振媛",
+            "value": 37.2,
+            "category": 6
+        },
+        {
+            "name": "意见挖掘",
+            "value": 20,
+            "category": 6
+        },
+        {
+            "name": "共词分析",
+            "value": 20,
+            "category": 6
+        },
+        {
+            "name": "内容分析",
+            "value": 20,
+            "category": 6
+        },
+        {
+            "name": "赖茂生",
+            "value": 85.2,
+            "category": 1
+        },
+        {
+            "name": "《科技文献检索》",
+            "value": 28,
+            "category": 1
+        },
+        {
+            "name": "情报学",
+            "value": 20,
+            "category": 1
+        },
+        {
+            "name": "信息检索",
+            "value": 20,
+            "category": 1
+        },
+        {
+            "name": "信息资源",
+            "value": 20,
+            "category": 1
+        },
+        {
+            "name": "信息公开",
+            "value": 20,
+            "category": 1
+        },
+        {
+            "name": "符绍宏",
+            "value": 67.2,
+            "category": 7
+        },
+        {
+            "name": "《信息检索》",
+            "value": 28,
+            "category": 7
+        },
+        {
+            "name": "信息素养",
+            "value": 20,
+            "category": 7
+        },
+        {
+            "name": "教育内容",
+            "value": 20,
+            "category": 7
+        },
+        {
+            "name": "教育改革",
+            "value": 20,
+            "category": 7
+        },
+        {
+            "name": "图书情报教育",
+            "value": 20,
+            "category": 7
+        },
+        {
+            "name": "赵荣",
+            "value": 68.4,
+            "category": 8
+        },
+        {
+            "name": "USMARC、CCF与UNIMARC的格式相互转换",
+            "value": 28,
+            "category": 8
+        },
+        {
+            "name": "用户调查",
+            "value": 20,
+            "category": 8
+        },
+        {
+            "name": "检索需求",
+            "value": 20,
+            "category": 8
+        },
+        {
+            "name": "OPAC",
+            "value": 20,
+            "category": 8
+        },
+        {
+            "name": "高校图书馆",
+            "value": 20,
+            "category": 8
+        },
+        {
+            "name": "黄崑",
+            "value": 48,
+            "category": 9
+        },
+        {
+            "name": "基于日志的高校图书馆用户检索行为研究",
+            "value": 28,
+            "category": 9
+        },
+        {
+            "name": "图像检索",
+            "value": 20,
+            "category": 9
+        },
+        {
+            "name": "搜索引擎",
+            "value": 20,
+            "category": 9
+        },
+        {
+            "name": "张路路",
+            "value": 31.2,
+            "category": 10
+        },
+        {
+            "name": "我国政务信息化发展水平研究",
+            "value": 28,
+            "category": 10
+        },
+        {
+            "name": "公共图书馆",
+            "value": 20,
+            "category": 10
+        },
+        {
+            "name": "网站评价",
+            "value": 20,
+            "category": 10
+        },
+        {
+            "name": "失败检索",
+            "value": 20,
+            "category": 10
+        },
+        {
+            "name": "屈鹏",
+            "value": 42,
+            "category": 11
+        },
+        {
+            "name": "用户搜索过程中检索语言使用研究",
+            "value": 28,
+            "category": 11
+        },
+        {
+            "name": "日志挖掘",
+            "value": 20,
+            "category": 11
+        },
+        {
+            "name": "检索语言",
+            "value": 20,
+            "category": 11
+        },
+        {
+            "name": "搜索行为",
+            "value": 20,
+            "category": 11
+        },
+        {
+            "name": "浦燕妮",
+            "value": 31.2,
+            "category": 12
+        },
+        {
+            "name": "高校图书馆对学生学业科研影响研究",
+            "value": 28,
+            "category": 12
+        },
+        {
+            "name": "元数据标准",
+            "value": 20,
+            "category": 12
+        },
+        {
+            "name": "科学元数据",
+            "value": 20,
+            "category": 12
+        }
+    ],
+     "links": [
+        {
+            "source": 0,
+            "target": 2
+        },
+        {
+            "source": 0,
+            "target": 1
+        },
+        {
+            "source": 0,
+            "target": 3
+        },
+        {
+            "source": 0,
+            "target": 4
+        },
+        {
+            "source": 0,
+            "target": 5
+        },
+        {
+            "source": 0,
+            "target": 6
+        },
+        {
+            "source": 7,
+            "target": 0
+        },
+        {
+            "source": 7,
+            "target": 8
+        },
+        {
+            "source": 7,
+            "target": 9
+        },
+        {
+            "source": 7,
+            "target": 10
+        },
+        {
+            "source": 7,
+            "target": 11
+        },
+        {
+            "source": 7,
+            "target": 12
+        },
+        {
+            "source": 13,
+            "target": 0
+        },
+        {
+            "source": 13,
+            "target": 14
+        },
+        {
+            "source": 13,
+            "target": 15
+        },
+        {
+            "source": 13,
+            "target": 16
+        },
+        {
+            "source": 13,
+            "target": 17
+        },
+        {
+            "source": 13,
+            "target": 18
+        },
+        {
+            "source": 13,
+            "target": 19
+        },
+        {
+            "source": 20,
+            "target": 7
+        },
+        {
+            "source": 20,
+            "target": 21
+        },
+        {
+            "source": 20,
+            "target": 22
+        },
+        {
+            "source": 20,
+            "target": 23
+        },
+        {
+            "source": 20,
+            "target": 24
+        },
+        {
+            "source": 20,
+            "target": 25
+        },
+        {
+            "source": 20,
+            "target": 9
+        },
+        {
+            "source": 26,
+            "target": 7
+        },
+        {
+            "source": 26,
+            "target": 27
+        },
+        {
+            "source": 26,
+            "target": 9
+        },
+        {
+            "source": 26,
+            "target": 10
+        },
+        {
+            "source": 26,
+            "target": 28
+        },
+        {
+            "source": 26,
+            "target": 29
+        },
+        {
+            "source": 26,
+            "target": 30
+        },
+        {
+            "source": 31,
+            "target": 7
+        },
+        {
+            "source": 31,
+            "target": 8
+        },
+        {
+            "source": 31,
+            "target": 25
+        },
+        {
+            "source": 31,
+            "target": 32
+        },
+        {
+            "source": 31,
+            "target": 33
+        },
+        {
+            "source": 31,
+            "target": 34
+        },
+        {
+            "source": 35,
+            "target": 36
+        },
+        {
+            "source": 35,
+            "target": 37
+        },
+        {
+            "source": 35,
+            "target": 38
+        },
+        {
+            "source": 35,
+            "target": 39
+        },
+        {
+            "source": 35,
+            "target": 40
+        },
+        {
+            "source": 41,
+            "target": 42
+        },
+        {
+            "source": 41,
+            "target": 43
+        },
+        {
+            "source": 41,
+            "target": 44
+        },
+        {
+            "source": 41,
+            "target": 45
+        },
+        {
+            "source": 41,
+            "target": 46
+        },
+        {
+            "source": 47,
+            "target": 48
+        },
+        {
+            "source": 47,
+            "target": 49
+        },
+        {
+            "source": 47,
+            "target": 50
+        },
+        {
+            "source": 47,
+            "target": 51
+        },
+        {
+            "source": 47,
+            "target": 52
+        },
+        {
+            "source": 53,
+            "target": 7
+        },
+        {
+            "source": 53,
+            "target": 47
+        },
+        {
+            "source": 53,
+            "target": 41
+        },
+        {
+            "source": 53,
+            "target": 35
+        },
+        {
+            "source": 53,
+            "target": 54
+        },
+        {
+            "source": 53,
+            "target": 55
+        },
+        {
+            "source": 53,
+            "target": 56
+        },
+        {
+            "source": 53,
+            "target": 51
+        },
+        {
+            "source": 53,
+            "target": 37
+        },
+        {
+            "source": 57,
+            "target": 53
+        },
+        {
+            "source": 57,
+            "target": 51
+        },
+        {
+            "source": 57,
+            "target": 58
+        },
+        {
+            "source": 57,
+            "target": 59
+        },
+        {
+            "source": 57,
+            "target": 60
+        },
+        {
+            "source": 57,
+            "target": 61
+        },
+        {
+            "source": 62,
+            "target": 38
+        },
+        {
+            "source": 62,
+            "target": 35
+        },
+        {
+            "source": 62,
+            "target": 63
+        },
+        {
+            "source": 62,
+            "target": 64
+        },
+        {
+            "source": 62,
+            "target": 65
+        },
+        {
+            "source": 62,
+            "target": 66
+        },
+        {
+            "source": 67,
+            "target": 47
+        },
+        {
+            "source": 67,
+            "target": 52
+        },
+        {
+            "source": 67,
+            "target": 68
+        },
+        {
+            "source": 67,
+            "target": 69
+        },
+        {
+            "source": 67,
+            "target": 70
+        }
+
+
+    ]
+}

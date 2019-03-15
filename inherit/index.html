@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>图书情报学领域部分学者研究及师承关系可视化</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="echarts4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<style>
+		div{float:left;}
+        .div-inline{border:1px solid #000; border-radius:5px} 
+	</style>
+</head>
+<body>
+    <div class="top" style="width: 100%;height:70px padding-bottom:10px"><img src="title.jpg" width="100%" height='100%'></div>
+	<div id="main1" class="div-inline" style="width: 64%;height:750px; margin-right: 10px"></div>
+	<div id="main2" class="div-inline" style="width: 35%;height:247px;"></div>
+    <div id="main3" class="div-inline" style="width: 35%;height:240px; margin-top: 10px"></div>
+    <div id="main4" class="div-inline" style="width: 35%;height:240px; margin-top: 10px"></div>
+	<script>
+	var myChart1 = echarts4.init(document.getElementById('main1'));
+    var sx = ["张树华", "赖茂生","李广建","刘素清","刘晓娟","化柏林","祝振媛","符绍宏","赵荣","黄崑","张路路","屈鹏","浦燕妮"];
+	//myChart.showLoading();
+    var colors = ['#660000','#339999','#CC9966','#993333','#CC3333','#0099CC','#99CC66','#003399','#FF9933','#003333','#00CC00','#006633','#666699'];
+    var sankeynodes = [
+        {name: '中科院',value:2},
+        {name: '北京大学',value:8},
+        {name: '北京师范大学',value:3},
+        {name: '北京大学（任教）',value:4},
+        {name: '北京师范大学（任教）',value:5},
+        {name: '中信所',value:1},
+        {name: '中国政法大学',value:1},
+        {name: '人民大学',value:1},
+        {name: '江南大学',value:1}
+    ];
+
+
+function getinfo(aname,nodedata){
+    var relist = new Array();
+    var stlist = new Array();
+    var reerlist = new Array();
+    var returnlist = new Array();
+    nodedata.nodes.map(function (node, idx) {
+        node.id = idx;
+        if(node.name==aname){
+            thisnode = node.id
+            thisnodevalue = node.value
+        }
+    })
+    if(thisnodevalue>30){
+        nodedata.links.map(function(link){
+            if(link.source==thisnode){
+                relist.push(link.target);
+            }
+            if(link.target==thisnode){
+                stlist.push(link.source);
+            }
+        })
+        nodedata.nodes.map(function (node, idx) {
+            for(var i = 0; i < relist.length; i++){
+                if(node.id == relist[i]&&node.value==28){
+                    mid = '代表作：'+node.name+'<br>'
+                    returnlist.push(mid)
+                }
+                else if(node.id == relist[i] && node.value>thisnodevalue){
+                    mid = '师从：'+node.name+'<br>'
+                    returnlist.push(mid)
+                }
+                else if(node.id == relist[i] && node.value<thisnodevalue&&node.value!=28){
+                    mid = '研究关键词：'+node.name+'<br>'
+                    returnlist.push(mid)
+                }
+            }
+            for(var i = 0; i < stlist.length; i++){
+                if(node.id == stlist[i]&&node.value<thisnodevalue){
+                    mid = '学生：'+node.name+'<br>'
+                    returnlist.push(mid)
+                }
+            }
+        })
+        //console.log(returnlist)
+        realreturn = returnlist.sort().join("")
+        return realreturn
+    }else{
+        nodedata.links.map(function(link){
+            if(link.target==thisnode){
+                reerlist.push(link.source);
+            }
+        })
+        nodedata.nodes.map(function (node, idx) {
+            for(var i = 0; i < reerlist.length; i++){
+                if(node.id == reerlist[i]){
+                    mid = '研究者：'+node.name+'<br>'
+                    returnlist.push(mid)
+                }
+            }
+        })
+        realreturn = returnlist.join("")
+        return realreturn
+    }
+}
+$.getJSON('data2.json', function (nodedata) {
+ myChart1.hideLoading();
+nodedata.nodes.forEach(function (node) {
+        node.itemStyle = null;
+        node.symbolSize = node.value;
+        //node.symbolSize /= 1.2;
+        if(node.symbolSize>28)
+        {
+        	node.label = {
+	            normal: {
+	                show: node.symbolSize >= 28,
+	                textStyle:{
+	                	fontSize:24
+	                }
+	            },
+	            emphasis: {
+	                show: node.symbolSize,
+	                textStyle:{
+	                	fontSize:20,
+	                },
+	                position: 'top'
+	            }
+	        };
+        }
+        else
+        {
+        	node.label = {
+	            normal: {
+	                show: node.symbolSize >= 28,
+	                textStyle:{
+	                	fontSize:15
+	                }
+	            },
+	            emphasis: {
+	                show: node.symbolSize,
+	                textStyle:{
+	                	fontSize:15,
+	                },
+	                position: 'top'
+	            }
+	        };
+        }
+    });
+    option1 = {
+        title:{
+            text:'师承及研究者研究点网络图'
+        },
+    	color:colors,
+        legend: {
+            data: ["张树华", "赖茂生","李广建","刘素清","刘晓娟","化柏林","","祝振媛","符绍宏","赵荣","黄崑","张路路","屈鹏","浦燕妮"],
+        },
+        tooltip:{
+            formatter: function (params) {
+                return getinfo(params.name,nodedata)
+            }
+        },
+        series: [{
+            type: 'graph',
+            layout: 'force',
+            animation: false,
+            draggable: true,
+            roam: false,
+            data: nodedata.nodes.map(function (node, idx) {
+                node.id = idx;
+                return node;
+            }),
+            categories: nodedata.categories,
+            edges: nodedata.links,
+            focusNodeAdjacency: true,
+            lineStyle: {
+                    color: 'source',
+                    curveness: 0
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                    shadowBlur: 5,
+                    shadowColor: 'rgba(0, 0, 0, 0.3)'
+                },
+                emphasis:{
+                	borderColor: '6699FF',
+                    borderWidth: 2,
+                    shadowBlur: 8,
+                    shadowColor: 'rgba(0, 0, 0, 1)'
+                }
+            },
+            emphasis: {
+                lineStyle: {
+                width: 6
+                }
+            },
+            force: {
+                // initLayout: 'circular'
+                // repulsion: 20,
+                edgeLength: 60,
+                repulsion: 200,
+                gravity: 0.2
+            }
+        }]
+    };
+
+    myChart1.setOption(option1);
+});
+
+
+var myChart2 = echarts4.init(document.getElementById('main2'));
+	var dataZSH = [[83, 1953, 34, 67, 396, '图书馆学', '北京大学', '北京大学']];
+	var dataLMS = [[71, 1969, 157, 206, 6253, '情报学', '北京大学', '北京大学']];
+	var dataLGJ = [[55, 1984, 101, 131, 9864, '情报学', '北京大学', '北京大学']];
+	var dataFSH = [[56, 1984, 16, 121, 1292, '图书馆学', '中科院', '北京师范大学']];
+	var dataZR = [[57, 1984, 19, 27, 1002, '图书馆学', '北京师范大学', '北京师范大学']];
+	var dataLSQ = [[49, 1994, 31, 82, 3085, '图书馆学', '北京大学', '北京大学']];
+	var dataLXJ = [[38, 2007, 34, 72, 1517, '情报学', '中科院', '北京师范大学']];
+	var dataHK = [[40, 2005, 46, 125, 850, '图书馆学', '北京大学', '北京师范大学']];
+	var dataHBL = [[41, 2015, 63, 111, 9864, '情报学', '北京大学', '北京大学']];
+	var dataQP = [[35, 2012, 29, 63, 4524, '情报学', '北京大学', '中信所']];
+	var dataZZY = [[31, 2018, 9, 16, 1267, '情报学', '北京大学', '人民大学']];
+	var dataPYN = [[26, 2017, 4, 6, 498,'图书馆学', '北京师范大学','中国政法大学']];
+    var dataZLL = [[26, 2017, 8, 7, 468,'图书馆学', '北京师范大学','江南大学']];
+    var dataset = [dataZSH,dataLMS,dataLGJ,dataLSQ,dataLXJ,dataHBL,dataZZY,dataFSH,dataZR,dataHK,dataZLL,dataQP,dataPYN];
+    //console.log(dataset[0][0].slice(0,5))
+	var lineStyle = {
+    	normal: {
+        	width: 2,
+        	opacity: 0.5
+    	}
+	};
+    var highlightlinestyle = {
+        width: 5,
+        opacity: 0.85,
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowBlur: 5,
+        style:'dotted'
+    };
+    var seriesP = [
+        {
+            name: '张树华',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataZSH
+        },
+        {
+            name: '赖茂生',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataLMS
+        },
+        {
+            name: '李广建',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataLGJ
+        },
+        {
+            name: '刘素清',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataLSQ
+        },
+        {
+            name: '刘晓娟',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataLXJ
+        },
+        {
+            name: '化柏林',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataHBL
+        },
+        {
+            name: '祝振媛',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataZZY
+        },
+        {
+            name: '符绍宏',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataFSH
+        },
+        {
+            name: '赵荣',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataZR
+        },
+        {
+            name: '黄崑',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataHK
+        },
+        {
+            name: '张路路',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataZLL
+        },
+        {
+            name: '屈鹏',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataQP
+        },
+        {
+            name: '浦燕妮',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataPYN
+        }
+
+    ],
+option2 = {
+    color:colors,
+    title:{
+        text:'研究者属性图',
+        textStyle:{
+            fontSize:14
+        }
+    },
+	legend: {
+		itemWidth: 0,
+        itemHeight: 0,
+        itemGap: 0,
+		bottom:0,
+        data: sx,
+        textStyle:{
+        	fontSize: 1,
+            color: '#fff'
+        }        
+    },
+    parallel:{
+        left:'5%'
+    },
+    parallelAxis: [
+        {dim: 0, name: '年龄', min:25, max:90},
+        {dim: 1, name: '毕业时间', min:1950, max:2020},
+        {dim: 2, name: '发文数量'},
+        {dim: 3, name: '最高被引'},
+        {dim: 4, name: '最高下载'},
+        {
+        	dim: 5, 
+        	name: '专业',
+        	type: 'category',
+            data: ['图书馆学', '情报学'],
+            axisTick:{show:false}
+        },
+        {
+        	dim: 6, 
+        	name: '毕业学校',
+        	type: 'category',
+        	data: ['北京大学', '北京师范大学', '中科院'],
+            axisTick:{show:false}
+        },
+        {
+            dim: 7,
+            name: '去向学校',
+            type: 'category',
+            data: ['北京大学', '北京师范大学', '人民大学', '中国政法大学', '中信所','江南大学'],
+            axisTick:{show:false}
+        }
+    ],
+    series: seriesP
+};
+myChart2.setOption(option2);
+
+
+function find_name(params){
+    var namelist = new Array();
+    if(params.dataType == 'edge'){
+        for(var i = 0; i< seriesP.length; i++){
+            if(seriesP[i].data[0][6]==params.data.source&&(seriesP[i].data[0][7]==params.data.target||seriesP[i].data[0][7]==params.data.target.substring(0,params.data.target.length-4))){
+                    namelist.push(seriesP[i].name)
+            };
+        };
+    }
+    else if(params.dataType == 'node')
+    {
+        for(var i = 0; i< seriesP.length; i++){
+            if(params.name=='北京师范大学'){
+                if(params.name == seriesP[i].data[0][6]){
+                    namelist.push(seriesP[i].name)
+                }
+            }else{
+                if(params.name == seriesP[i].data[0][6]){
+                    namelist.push(seriesP[i].name)
+                }else if(seriesP[i].data[0][7]==params.name||seriesP[i].data[0][7]+'（任教）'==params.name){
+                    namelist.push(seriesP[i].name)
+                }
+            }
+        };
+    }
+    return namelist
+};
+var myChart3 = echarts4.init(document.getElementById('main3'));
+var sankeylineSytle = 
+{
+    normal: {
+        color: 'source',
+        curveness: 0.5
+    }
+};
+var sankeylinks = 
+[
+    {source: '中科院', target: '北京师范大学（任教）', value: 2,lineStyle:sankeylineSytle},
+    {source: '北京大学', target: '北京师范大学（任教）', value: 1,lineStyle:sankeylineSytle},
+    {source: '北京大学', target: '北京大学（任教）', value: 5,lineStyle:sankeylineSytle},
+    {source: '北京大学', target: '人民大学', value: 1,lineStyle:sankeylineSytle},
+    {source: '北京大学', target: '中信所', value: 1,lineStyle:sankeylineSytle},
+    {source: '北京师范大学', target: '中国政法大学', value: 1,lineStyle:sankeylineSytle},
+    {source: '北京师范大学', target: '江南大学', value: 1,lineStyle:sankeylineSytle},
+    {source: '北京师范大学', target: '北京师范大学（任教）', value: 1,lineStyle:sankeylineSytle}
+],
+option3 = {
+    color:colors,
+    title:{
+        text:'研究者毕业去向图',
+        textStyle:{
+            fontSize:14
+        }
+    },
+    tooltip: {
+        formatter: function (params) {
+            return find_name(params)
+        }
+    },
+    animation: false,
+    series: [
+        {
+            type: 'sankey',
+            layout:'none',
+            right:'24%',
+            //focusNodeAdjacency: 'allEdges',
+            data: [
+                {name: '中科院',value:2},
+                {name: '北京大学',value:8},
+                {name: '北京师范大学',value:3},
+                {name: '北京大学（任教）',value:4},
+                {name: '北京师范大学（任教）',value:4},
+                {name: '中信所',value:1},
+                {name: '中国政法大学',value:1},
+                {name: '人民大学',value:1},
+                {name: '江南大学',value:1}
+            ],
+            links: sankeylinks,
+        }
+    ]
+}
+myChart3.setOption(option3);
+
+
+var myChart4 = echarts4.init(document.getElementById('main4'));
+option4 = {
+    title:{
+        text:'张树华'+' 年龄及发文情况',
+        textStyle:{
+            fontSize:14
+        }
+    },
+    tooltip: {},
+    radar: {
+        // shape: 'circle',
+        name: {
+            textStyle: {
+                color: '#fff',
+                backgroundColor: '#999',
+                borderRadius: 3,
+                padding: [3, 5]
+           }
+        },
+        indicator: [
+           { name: '年龄', max: 90},
+           { name: '毕业时间', min:1930,max: 2018},
+           { name: '发文量', max: 157},
+           { name: '发文最高被引', max: 210},
+           { name: '发文最高下载', min:-100,max: 10000},
+        ]
+    },
+    series: {
+    top:'20%',
+    name: '张树华',
+    type: 'radar',
+        // areaStyle: {normal: {}},
+    data : [{
+            value : [ 83, 1953, 34, 67, 396 ], 
+            label: {
+                        normal: {
+                            show: true,
+                        }
+                    }    
+        }]
+    }
+};
+myChart4.setOption(option4);
+echarts4.connect([myChart1, myChart2]);
+
+
+myChart1.on('mouseover', function (params) {
+    //console.log(params);
+    if(params.value>30){
+        var seindex = sx.indexOf(params.name);
+        //console.log(seriesP[seindex].data[0][6],seriesP[seindex].data[0][7]);
+        var sourcename = seriesP[seindex].data[0][6]
+        if(seriesP[seindex].data[0][7]=='北京师范大学'||seriesP[seindex].data[0][7]=='北京大学'){
+            targetname = seriesP[seindex].data[0][7]+'（任教）';
+        }
+        else{
+            targetname = seriesP[seindex].data[0][7];
+        }
+        //console.log(sourcename,targetname);
+        for(var i = 0; i<sankeylinks.length; i++){
+            if(sankeylinks[i].source==sourcename && (sankeylinks[i].target==seriesP[seindex].data[0][7]||sankeylinks[i].target==targetname)){
+                sankeylinks[i].lineStyle = {color:'#000099',shadowColor: 'rgba(0, 0, 0, 0.2)',shadowBlur: 3}
+            }
+        }
+        //console.log(sankeylinks)
+        myChart3.setOption({
+        series: [
+            {
+                type: 'sankey',
+                layout:'none',
+                left:'5%',
+                //focusNodeAdjacency: 'allEdges',
+                data: [
+                    {name: '中科院',value:2},
+                    {name: '北京大学',value:8},
+                    {name: '北京师范大学',value:3},
+                    {name: '北京大学（任教）',value:4},
+                    {name: '北京师范大学（任教）',value:5},
+                    {name: '中信所',value:1},
+                    {name: '中国政法大学',value:1},
+                    {name: '人民大学',value:1},
+                    {name: '江南大学',value:1}
+                ],
+                links: sankeylinks,
+                }
+        ]
+        });
+
+        myChart2.setOption({
+            series: {
+                name: seriesP[seindex].name,
+                type: 'parallel',
+                lineStyle:{
+                    width: 5,
+                    opacity: 0.85,
+                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    shadowBlur: 5,
+                    style:'dotted'
+                },
+                data: seriesP[seindex].data
+            }
+        });
+
+        myChart4.setOption({
+            title:{text:seriesP[seindex].name+' 年龄及发文情况'},
+            series:{
+                name: seriesP[seindex].name,
+                type: 'radar',
+                data: [seriesP[seindex].data[0].slice(0,5)],
+                label: {
+                        normal: {
+                            show: true
+                        }
+                    }  
+
+            }
+        });
+    }
+});
+myChart1.on('mouseout', function (params) {
+    // 控制台打印数据的名称
+    if(params.value>30){
+        var seindex = sx.indexOf(params.name);
+        myChart2.setOption({
+            series: {
+                name: seriesP[seindex].name,
+                type: 'parallel',
+                lineStyle:lineStyle,
+                data: seriesP[seindex].data
+            }
+        });
+        var seindex = sx.indexOf(params.name);
+        //console.log(seriesP[seindex].data[0][6],seriesP[seindex].data[0][7]);
+        var sourcename = seriesP[seindex].data[0][6]
+        if(seriesP[seindex].data[0][7]=='北京师范大学'||seriesP[seindex].data[0][7]=='北京大学'){
+            targetname = seriesP[seindex].data[0][7]+'（任教）';
+        }
+        else{
+            targetname = seriesP[seindex].data[0][7];
+        }
+        for(var i = 0; i<sankeylinks.length; i++){
+        if(sankeylinks[i].source==sourcename && (sankeylinks[i].target==seriesP[seindex].data[0][7]||sankeylinks[i].target==targetname)){
+            sankeylinks[i].lineStyle = sankeylineSytle
+        }
+        }
+        myChart3.setOption({
+            series: [
+                {
+                    type: 'sankey',
+                    layout:'none',
+                    left:'5%',
+                    //focusNodeAdjacency: 'allEdges',
+                    data: [
+                        {name: '中科院',value:2},
+                        {name: '北京大学',value:8},
+                        {name: '北京师范大学',value:3},
+                        {name: '北京大学（任教）',value:5},
+                        {name: '北京师范大学（任教）',value:5},
+                        {name: '中信所',value:1},
+                        {name: '中国政法大学',value:1},
+                        {name: '人民大学',value:1},
+                        {name: '江南大学',value:1}
+                    ],
+                    links: sankeylinks,
+                    }
+            ]
+        });
+    }
+});
+
+
+myChart3.on('mouseover', function (params) {
+    echarts4.disconnect(myChart1,myChart2)
+    //console.log(params.data.target);
+    if(params.value == 1){
+        if(params.dataType == 'edge'){
+            var panbie = params.data.target ;
+        }else if(params.dataType == 'node'){
+            var panbie = params.name;
+        }
+        for(var i = 0; i < sx.length; i++){
+            if(params.data.source == seriesP[i].data[0][6]&&(panbie == seriesP[i].data[0][7]||panbie == seriesP[i].data[0][7]+'（任教）')){
+                console.log(panbie,seriesP[i].data[0][7],seriesP[i].name)
+                myChart4.setOption({
+                    title:{text:seriesP[i].name+' 年龄及发文情况'},
+                    series:{
+                        name: seriesP[i].name,
+                        type: 'radar',
+                        data: [seriesP[i].data[0].slice(0,5)],
+                        label: {
+                                normal: {
+                                    how: true
+                                }
+                            }  
+                    }
+                });
+            }
+        }
+    }
+    var lglist = new Object();
+    if(params.dataType == 'edge'){
+        for(var i = 0; i<sx.length; i++){
+            lglist[sx[i]]=false;
+        };
+        for(var i = 0; i< seriesP.length; i++){
+            if(seriesP[i].data[0][6]==params.data.source&&(seriesP[i].data[0][7]==params.data.target||seriesP[i].data[0][7]==params.data.target.substring(0,params.data.target.length-4))){
+                    seriesP[i].lineStyle = highlightlinestyle;
+                    lglist[seriesP[i].name]=true;
+            };
+        };
+        myChart1.setOption({
+            legend:{selected:lglist}
+        });
+    }
+    else if(params.dataType == 'node')
+    {
+        var nglist = new Object();
+        for(var i = 0; i<sx.length; i++){
+            lglist[sx[i]]=false;
+        };
+        for(var i = 0; i< seriesP.length; i++){
+            if(params.name=='北京师范大学'){
+                if(params.name == seriesP[i].data[0][6]){
+                    seriesP[i].lineStyle = highlightlinestyle;
+                    lglist[seriesP[i].name]=true;
+                }
+            }else{
+                if(params.name == seriesP[i].data[0][6]){
+                    seriesP[i].lineStyle = highlightlinestyle;
+                    lglist[seriesP[i].name]=true;
+                }else if(seriesP[i].data[0][7]==params.name||seriesP[i].data[0][7]+'（任教）'==params.name){
+                    seriesP[i].lineStyle = highlightlinestyle;
+                    lglist[seriesP[i].name]=true;
+                }
+            }
+        };
+        myChart1.setOption({
+            legend:{selected:lglist}
+        });
+    }
+    myChart2.setOption({
+        series: seriesP
+    });
+});
+myChart3.on('mouseout', function (params) {
+    echarts4.connect(myChart1,myChart2)
+    var lglist = new Object();
+    for(var i = 0; i<sx.length; i++){
+        lglist[sx[i]]=true;
+        seriesP[i].lineStyle = lineStyle;
+    };
+    
+    myChart1.setOption({
+        legend:{selected:lglist}
+    });
+    myChart2.setOption({
+        series: seriesP
+    });
+});
+
+
+myChart4.on('mouseover', function (params) {
+    var seindex = sx.indexOf(params.seriesName);
+        //console.log(seriesP[seindex].data[0][6],seriesP[seindex].data[0][7]);
+    var sourcename = seriesP[seindex].data[0][6]
+        if(seriesP[seindex].data[0][7]=='北京师范大学'||seriesP[seindex].data[0][7]=='北京大学'){
+            targetname = seriesP[seindex].data[0][7]+'（任教）';
+        }
+        else{
+            targetname = seriesP[seindex].data[0][7];
+        }
+        //console.log(sourcename,targetname);
+        for(var i = 0; i<sankeylinks.length; i++){
+            if(sankeylinks[i].source==sourcename && (sankeylinks[i].target==seriesP[seindex].data[0][7]||sankeylinks[i].target==targetname)){
+                sankeylinks[i].lineStyle = 
+                {
+                    color:'#000099',
+                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    shadowBlur: 3
+                }
+            }
+        }
+        //console.log(sankeylinks)
+        myChart3.setOption({
+        series: [
+            {
+                type: 'sankey',
+                layout:'none',
+                left:'5%',
+                //focusNodeAdjacency: 'allEdges',
+                data: [
+                    {name: '中科院',value:2},
+                    {name: '北京大学',value:8},
+                    {name: '北京师范大学',value:3},
+                    {name: '北京大学（任教）',value:4},
+                    {name: '北京师范大学（任教）',value:5},
+                    {name: '中信所',value:1},
+                    {name: '中国政法大学',value:1},
+                    {name: '人民大学',value:1},
+                    {name: '江南大学',value:1}
+                ],
+                links: sankeylinks,
+                }
+        ]
+        });
+        myChart2.setOption({
+            series: {
+                name: seriesP[seindex].name,
+                type: 'parallel',
+                lineStyle:{
+                    width: 5,
+                    opacity: 0.85,
+                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    shadowBlur: 5,
+                    style:'dotted'
+                },
+                data: seriesP[seindex].data
+            }
+        });
+        $.getJSON('data2.json', function (nodedata) {
+            nodedata.nodes.map(function (node, idx) {
+                if(node.name == params.seriesName){
+                    setTimeout(function () {
+                        myChart1.dispatchAction({
+                        type: 'focusNodeAdjacency',
+                        seriesIndex: 0,
+                        dataIndex:idx,
+                        });
+                    }, 1);
+                }
+                node.id = idx;
+                //console.log(params.seriesName);
+            })
+        });
+});
+myChart4.on('mouseout', function (params){
+var seindex = sx.indexOf(params.seriesName);
+        //console.log(seriesP[seindex].data[0][6],seriesP[seindex].data[0][7]);
+        var sourcename = seriesP[seindex].data[0][6]
+        if(seriesP[seindex].data[0][7]=='北京师范大学'||seriesP[seindex].data[0][7]=='北京大学'){
+            targetname = seriesP[seindex].data[0][7]+'（任教）';
+        }
+        else{
+            targetname = seriesP[seindex].data[0][7];
+        }
+        for(var i = 0; i<sankeylinks.length; i++){
+        if(sankeylinks[i].source==sourcename && (sankeylinks[i].target==seriesP[seindex].data[0][7]||sankeylinks[i].target==targetname)){
+            sankeylinks[i].lineStyle = sankeylineSytle
+        }
+        }
+        myChart2.setOption({
+            series: {
+                name: seriesP[seindex].name,
+                type: 'parallel',
+                lineStyle:lineStyle,
+                data: seriesP[seindex].data
+            }
+        });
+        myChart3.setOption({
+            series: [
+                {
+                    type: 'sankey',
+                    layout:'none',
+                    left:'5%',
+                    //focusNodeAdjacency: 'allEdges',
+                    data: [
+                        {name: '中科院',value:2},
+                        {name: '北京大学',value:8},
+                        {name: '北京师范大学',value:3},
+                        {name: '北京大学（任教）',value:4},
+                        {name: '北京师范大学（任教）',value:5},
+                        {name: '中信所',value:1},
+                        {name: '中国政法大学',value:1},
+                        {name: '人民大学',value:1},
+                        {name: '江南大学',value:1}
+                    ],
+                    links: sankeylinks,
+                    }
+            ]
+        });
+        $.getJSON('data2.json', function (nodedata) {
+            nodedata.nodes.map(function (node, idx) {
+                if(node.name == params.seriesName){
+                    setTimeout(function () {
+                        myChart1.dispatchAction({
+                        type: 'unfocusNodeAdjacency',
+                        seriesIndex: 0,
+                        dataIndex:idx,
+                        });
+                    }, 0);
+                }
+                node.id = idx;
+                //console.log(params.seriesName);
+            })
+        });
+});
+
+	</script>
+</body>
+</html>
