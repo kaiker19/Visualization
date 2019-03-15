@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>1</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="echarts.min.js"></script>
+	<style>
+		div{float:left;}
+        .button{
+            width: 140px;
+            line-height: 38px;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            text-shadow:1px 1px 1px #333;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            font-size: 20px;
+        }
+        .button.gray{
+            color: #8c96a0;
+            text-shadow:1px 1px 1px #fff;
+            border:1px solid #dce1e6;
+            box-shadow: 0 1px 2px #fff inset,0 -1px 0 #a8abae inset;
+            background: -webkit-linear-gradient(top,#f2f3f7,#e4e8ec);
+            background: -moz-linear-gradient(top,#f2f3f7,#e4e8ec);
+            background: linear-gradient(top,#f2f3f7,#e4e8ec);
+        }
+
+	</style>
+</head>
+<body>
+    <div class="top" style="width: 100%;height:70px;">
+        <p align="center" style="font-size: 36px;margin:auto;">高桥哲哉与他的异度宇宙</p>
+        <hr>
+    </div>
+    <div class="button" style="width: 100%;height:40px">
+        <button onclick="myFunction()" class="button gray">动态展示</button>
+        <button onclick="stopFunction()" class="button gray">停止</button>
+    </div>
+	<div id="main" class="div-inline" style="width: 60%;height:350px;padding-bottom: 40px"></div>
+	<div id="main2" class="div-inline" style="width: 40%;height:350px;padding-bottom: 40px"></div>
+    <div id="main5" class="div-inline" style="width: 60%;height:300px;"></div>
+	<div id="main3" class="div-inline" style="width: 20%;height:260px;"></div>
+	<div id="main4" class="div-inline" style="width: 20%;height:260px;"></div>
+<script>
+var timeset = [1,6,11,12,15,16];
+var xenoset = [11,13,14,15,17,18,19];
+var sername = ['Xenogears', 'Xenosaga I', 'Xenosaga II', 'Xenosaga III', "Xenoblade", "Xenoblade X", "Xenoblade II"];
+var sales = [119, 174, 58, 37, 147, 92,150];
+var rankings = [91,84,74,81,92,84,83];
+var themeset = [0,4,9,12,16,20,24];
+var myChart = echarts.init(document.getElementById('main'));
+var data1 = {
+	"name":"高桥哲哉",
+	"children":[
+		{
+			"name":"Falcom(1988-1990)",
+			"children": [
+				{"name":"Sorcerian","value":1988},
+				{"name":"Dragon Slayer","value":1988},
+				{"name":"YS 3","value":1989}
+			]
+		},
+		{
+			"name":"Square(1990-1999)",
+			"children": [
+				{"name":"Final Fantasy IV","value":1991},
+				{"name":"Final Fantasy V","value":1992},
+				{"name":"Final Fantasy VI","value":1994},
+				{"name":"Final Fantasy VII","value":1997},
+				{"name":"Xenogears","value":1998}
+			]
+		},
+		{
+			"name":"Namco(1999-2007)",
+			"children": [
+				{"name":"Xenosaga I","value":2003},
+				{"name":"Xenosaga II","value":2005},
+				{"name":"Xenosaga III","value":2006}
+			]
+		},
+		{
+			"name":"Nintendo(2007-)",
+			"children": [
+				{"name":"Xenoblade","value":2010},
+				{"name":"Xenoblade X","value":2015},
+				{"name":"Xenoblade II","value":2017}
+			]
+		}
+	]
+};
+option = {
+    tooltip: {
+        trigger: 'item',
+        triggerOn: 'mousemove'
+    },
+    series:[
+        {
+            type: 'tree',
+
+            name: 'tree1',
+
+            data: [data1],
+
+            top: '5%',
+            left: '15%',
+            bottom: '2%',
+            right: '20%',
+
+            symbolSize: 10,
+            itemStyle:{
+                normal:{
+                    borderColor:'blue',
+                    borderWidth:1.5,
+                },
+                emphasis:{
+                    borderColor:'red',
+                    borderWidth:4,
+                    shadowColor: 'rgba(0, 0, 0, 0.3)',
+                    shadowBlur: 5
+                }
+            },
+            label: {
+                normal: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    textStyle:{
+                    	fontSize:17
+                    }
+                },
+                emphasis:{
+                    textStyle:{
+                        fontSize:20
+                    }
+                }
+            },
+
+            leaves: {
+                label: {
+                    normal: {
+                        position: 'right',
+                        verticalAlign: 'middle',
+                        align: 'left'
+                    }
+                }
+            },
+            expandAndCollapse: true,
+            animationDuration: 550,
+            animationDurationUpdate: 750
+
+        }
+    ]
+}
+myChart.setOption(option);
+currentIndex = 0;
+var klen = 7;
+var k = 0;
+var m = 0;
+var t = setInterval(function(){});
+function myFunction(){
+t = setInterval(function() {
+    var dataLen = 20;
+    // 取消之前高亮的图形
+    myChart.dispatchAction({
+        type: 'downplay',
+        seriesIndex: 0,
+        dataIndex: currentIndex
+    });
+    currentIndex = (currentIndex + 1) % dataLen;
+    // 高亮当前图形
+    myChart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex: currentIndex
+    });
+    // 显示 tooltip
+    myChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: currentIndex,
+        position:'right'
+    });
+   if(timeset.indexOf(currentIndex)!=-1){
+		myChart2.setOption({
+			series:{
+				label:{
+					formatter: formdata[timeset.indexOf(currentIndex)]
+				}
+			}
+		});
+	}
+	if(xenoset.indexOf(currentIndex)!=-1){
+		myChart3.setOption({
+			yAxis: {
+		        type: 'category',
+		        data: sername.slice(0,k+1)
+		    },
+			series:{
+				data:rankings.slice(0,k+1)
+			}
+		});
+		myChart4.setOption({
+			yAxis: {
+		        type: 'category',
+		        data: sername.slice(0,k+1)
+		    },
+			series:{
+				data:sales.slice(0,k+1)
+			}
+		});
+        myChart5.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: themeset[m]
+        });
+		k = (k + 1) % klen
+        m = (m + 1) % klen
+	}else{
+        myChart5.dispatchAction({
+            type: 'hideTip',
+            seriesIndex: 0,
+            dataIndex: themeset[m]
+        });
+    }
+}, 3000);
+}
+
+function stopFunction(){
+	clearInterval(t);
+	myChart.setOption(option);
+	myChart.dispatchAction({
+        type: 'downplay',
+        seriesIndex: 0,
+        dataIndex: currentIndex,
+        position:'right'
+    });
+}
+myChart.on('mousemove', function (params) {
+    //console.log(params.dataIndex);
+    i = 0
+    while(params.dataIndex>=timeset[i]){
+    	i = i + 1;
+    };
+    myChart2.setOption({
+		series:{
+			label:{
+				formatter: formdata[i-1]
+			}
+		}
+	});
+	if(xenoset.indexOf(params.dataIndex)!=-1){
+        myChart3.setOption({
+			yAxis: {
+		        type: 'category',
+		        data: sername.slice(0,xenoset.indexOf(params.dataIndex)+1)
+		    },
+			series:{
+				data:rankings.slice(0,xenoset.indexOf(params.dataIndex)+1)
+			}
+		});
+		myChart4.setOption({
+			yAxis: {
+		        type: 'category',
+		        data: sername.slice(0,xenoset.indexOf(params.dataIndex)+1)
+		    },
+			series:{
+				data:sales.slice(0,xenoset.indexOf(params.dataIndex)+1)
+			}
+		});
+		myChart3.dispatchAction({
+	        type: 'highlight',
+	        seriesIndex: 0,
+	        dataIndex:xenoset.indexOf(params.dataIndex),
+	    });
+	    myChart4.dispatchAction({
+	        type: 'highlight',
+	        seriesIndex: 0,
+	        dataIndex:xenoset.indexOf(params.dataIndex),
+	    });
+        myChart5.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: themeset[xenoset.indexOf(params.dataIndex)]
+        });
+	}
+});
+myChart.on('mouseout', function (params) {
+	myChart3.dispatchAction({
+	    type: 'downplay',
+	    seriesIndex: 0,
+	    dataIndex:xenoset.indexOf(params.dataIndex),
+	});
+	myChart4.dispatchAction({
+	    type: 'downplay',
+	    seriesIndex: 0,
+	    dataIndex:xenoset.indexOf(params.dataIndex),
+	});
+    myChart5.dispatchAction({
+        type: 'hideTip',
+        seriesIndex: 0,
+        dataIndex: themeset[xenoset.indexOf(params.dataIndex)]
+    });
+});
+
+var myChart2 = echarts.init(document.getElementById('main2'));
+var formdata = [['从学生时代起，高桥哲哉便对游戏业界抱有浓厚兴趣，',
+                        '1988年他入职{fregment2|Falcom}公司（著名作品有{fregment1|英雄传说系列、伊苏系列}等）',
+                        '担任美术设计并参与了《Dragon Slayer—英雄传说》的开发工作',
+                        '（注：《英雄传说》系列便是从此衍生而来），其时，',
+                        '田中久仁彦负责此游戏的角色设计。工作之余，',
+                        '高桥将自己一直构想的有关{fregment2|异度世界}的设计材料向田中进行了简单阐述，',
+                        '引起了田中浓厚的兴趣，不久后田中竟拿出几张角色设定图送给高桥，',
+                        '并戏称如果有朝一日若真的开发此游戏，就以次作为角色设定。'
+                    ].join('\n'),['1990年，高桥跳槽至{fregment2|SQUARE}，并连续参与了',
+                    '{fregment1|《最终幻想4》、《最终幻想5》、《最终幻想6》}的开发工作。',
+                    '《最终幻想6》时期其妻田中香加入项目开发负责一部分地图设计工作，','此外最终幻想6中的艾德加兄弟的相关设定案也出自这位才女的手笔。','1995初，当时正处于《最终幻想7》的初始开发阶段，','高桥以当时构想的异度故事作为相关企划案递交公司上层，','但由于整体世界观和故事与FF系列一贯风格相差太大，最终没有被通过。'
+                    ].join('\n'),['正在高桥倍受打击之时，坂口博信却对高桥的企划案赞赏有佳，','并建议高桥可以考虑作为其他作品线进行开发。','1998年SONY的32位家用主机PS上推出了新类型RPG游戏{fregment1|《异度装甲》}，','它以宏大的科幻设定的世界观为基础，','以跨越万年的亲情、爱情、友情、仇恨等情感元素构成，','游戏画面以3D多边形的风格呈现，辅以动听的配乐与唯美的设定，','成为1998年SQUARE的原创大作。'
+                    ].join('\n'),['但在当时《异度装甲》销量未过百万，','因而间接导致原制作小组1999年跳槽到{fregment2|NAMCO}公司制作续作——','{fregment1|《异度传说》}。该作以独特的世界、唯美的美术、天籁的音乐、','宏大的剧情以及新颖的战斗系统征服了许多玩家。','游戏以横跨万年的剧情作为背景，游戏中人物与事情相当庞大，','甚至创造了许多专有名词与科技幻想。','游戏以独到的人与机器人两条路线进行，','很多时候需要人类驾驶庞大的机器人进行战斗，让玩家得到不一样的体验。'
+                    ].join('\n'),['随着成为{fregment2|Monolish}董事，高桥哲哉淡出开发。','{fregment1|《异度传说》}续作销量并未达到南宫梦理想，','第三部{fregment1|《异度传说》}成为阶段的终结。'
+                    ].join('\n'),['2007年，{fregment2|Monolish}得到任天堂青睐，','高桥哲哉重回开发一线，《异度》系列再次复兴。','2010年的{fregment1|《异度之刃》}被誉为是该世代最佳JRPG,是JRPG的复兴之作，','《异度之刃》凭着优秀的剧情、宏大的世界观、出色的战斗获得广泛好评，','IGN、GS都为其打出了9分高分评价，成为WII末期顶尖RPG。'
+                    ].join('\n')]
+option2 = {
+    series: [
+        {
+            type: 'scatter',
+            data: [[0,0]],
+            symbolSize: 1,
+            label: {
+                normal: {
+                    show: true,
+                    formatter: formdata[0],
+                    backgroundColor: '#FFF8DC',
+                    // borderColor: '#333',
+                    borderColor: '#5F9EA0',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    padding: 10,
+                    color: '#000',
+                    fontSize: 16,
+                    shadowBlur: 3,
+                    shadowColor: '#888',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 3,
+                    lineHeight: 35,
+                    rich: {
+                        term: {
+                            fontSize: 18,
+                            color: 'rgb(199,86,83)'
+                        },
+                        fregment1: {
+                        	fontSize: 18,
+                            backgroundColor: '#000',
+                            color: 'yellow',
+                            padding: 5
+                        },
+                        fregment2: {
+                            backgroundColor: '#339911',
+                            color: '#fff',
+                            borderRadius: 2,
+                            padding: 5,
+                            fontSize: 18,
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    xAxis: {
+        axisLabel: {show: false},
+        axisLine: {show: false},
+        splitLine: {show: false},
+        axisTick: {show: false},
+        min: -1,
+        max: 1
+    },
+    yAxis: {
+        axisLabel: {show: false},
+        axisLine: {show: false},
+        splitLine: {show: false},
+        axisTick: {show: false},
+        min: -1,
+        max: 1
+    }
+};
+myChart2.setOption(option2);
+
+var myChart3 = echarts.init(document.getElementById('main3'));
+option3 = {
+    title: {
+        text: '《异度》(Xeno)系列评分',
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: []
+    },
+    grid: {
+        left: '3%',
+        right: '6%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data: sername.slice(0,0)
+    },
+    series: [
+        {
+            type: 'bar',
+            data: sales.slice(0,0),
+            label:{
+	        	normal:{
+	        		show:true,
+	        		position:"right"
+	        	}
+	        },
+	     	itemStyle:{
+	     		normal:{
+	     			color:'#191970'
+	     		},
+	     		emphasis:{
+	     			color:'#FFD700'
+	     		}
+	     	}
+        }
+    ]
+};
+
+myChart3.setOption(option3);
+var myChart4 = echarts.init(document.getElementById('main4'));
+option4 = {
+    title: {
+        text: '《异度》(Xeno)系列销量（万）',
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: []
+    },
+    grid: {
+        left: '3%',
+        right: '6%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data: sername.slice(0,0)
+    },
+    series: [
+        {
+            type: 'bar',
+            data: rankings.slice(0,0),
+            label:{
+	        	normal:{
+	        		show:true,
+	        		position:"right"
+	        	}
+	        },
+	        itemStyle:{
+	     		emphasis:{
+	     			color:'#FFD700'
+	     		}
+	        }
+        }
+    ]
+};
+myChart4.setOption(option4);
+
+myChart3.on('mouseover',function(params){
+	myChart4.dispatchAction({
+        type: 'highlight',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart4.dispatchAction({
+        type: 'showTip',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart5.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: themeset[params.dataIndex]
+    });    
+});
+myChart3.on('mouseout', function (params) {
+    myChart4.dispatchAction({
+        type: 'hideTip',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart4.dispatchAction({
+        type: 'downplay',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart5.dispatchAction({
+        type: 'hideTip',
+        seriesIndex: 0,
+    }); 
+});
+myChart4.on('mouseover', function (params) {
+	myChart3.dispatchAction({
+        type: 'highlight',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart3.dispatchAction({
+        type: 'showTip',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart5.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: themeset[params.dataIndex]
+    }); 
+});
+myChart4.on('mouseout', function (params) {
+    myChart3.dispatchAction({
+        type: 'hideTip',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart3.dispatchAction({
+        type: 'downplay',
+        seriesIndex: params.seriesIndex,
+        dataIndex:params.dataIndex,
+        name:params.name
+    });
+    myChart5.dispatchAction({
+        type: 'hideTip',
+        seriesIndex: 0,
+    }); 
+});
+
+var myChart5 = echarts.init(document.getElementById('main5'));
+option5 = {
+    title:{
+        text:'作品评论主题河流图',
+        textStyle:{
+
+        }
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'line',
+            lineStyle: {
+                color: 'rgba(0,0,0,0.2)',
+                width: 1,
+                type: 'solid'
+            }
+        }
+    },
+
+    legend: {
+        data: ['剧情', 'RPG', '游戏设计', '动画', '音乐']
+    },
+
+    singleAxis: {
+        top: 50,
+        bottom: 50,
+        axisTick: {},
+        type:'category',
+        data:['Xenogears','Xenosaga I','Xenosaga II','Xenosaga III','Xenoblade','Xenoblade X','Xenoblade II'],
+        axisLabel: {},
+        axisPointer: {
+            animation: true,
+            label: {
+                show: false,
+            }
+        },
+        splitLine: {
+            show: false,
+            lineStyle: {
+                type: 'dashed',
+                opacity: 0.2
+            }
+        }
+    },
+
+    series: [
+        {
+            type: 'themeRiver',
+            label:{
+                show:false
+            },
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 20,
+                    shadowColor: 'rgba(0, 0, 0, 0.8)'
+                }
+            },
+            data: [['0',109,'剧情'],['0',41,'RPG'],['0',64,'游戏设计'],
+            ['0',13,'动画'],['1',115,'剧情'],['1',36,'RPG'],['1',45,'游戏设计'],
+            ['1',16,'音乐'],['1',21,'动画'],['2',87,'剧情'],['2',56,'游戏设计'],
+            ['2',25,'音乐'],['3',113,'剧情'],['3',22,'RPG'],['3',49,'游戏设计'],
+            ['3',10,'音乐'],['4',137,'剧情'],['4',61,'RPG'],['4',41,'游戏设计'],
+            ['4',25,'动画'],['5',101,'剧情'],['5',28,'游戏设计'],['5',15,'音乐'],
+            ['5',112,'动画'],['6',120,'剧情'],['6',23,'RPG'],['6',58,'游戏设计'],
+            ['6',30,'音乐'],['6',106,'动画']]
+        }
+    ]
+};
+myChart5.setOption(option5);
+</script>
+</body>
+</html>
